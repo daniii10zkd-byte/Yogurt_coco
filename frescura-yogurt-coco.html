@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Check Frescura – Yogurt de Coco</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f6f8f4;
+      --card-bg: #ffffff;
+      --accent: #6ca56c;
+      --accent-soft: #d8ead8;
+      --danger: #c75252;
+      --warning: #e0a63a;
+      --text: #233022;
+      --muted: #6f7b6f;
+      --border: #dde3d8;
+      --radius-lg: 18px;
+      --radius-md: 10px;
+      --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e9f5ea 0, #f6f8f4 55%, #fdfdfb 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 18px 10px 34px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px 18px 22px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      margin-top: 8px;
+    }
+
+    .pill span {
+      font-size: 0.9rem;
+    }
+
+    h2.section-title {
+      font-size: 0.98rem;
+      margin: 18px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h2.section-title span.icon {
+      font-size: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.83rem;
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      outline: none;
+      background: #fafcf9;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(108, 165, 108, 0.3);
+      background: #ffffff;
+    }
+
+    .field-group {
+      margin-bottom: 10px;
+    }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .info-tag {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .days-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #edf5ed;
+      color: var(--accent);
+    }
+
+    .questions {
+      margin-top: 4px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: #fbfdf9;
+    }
+
+    .question-text {
+      font-size: 0.83rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      border-radius: 999px;
+      background: #dde3d8;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.18s ease-out;
+    }
+
+    .toggle.on {
+      background: #f7d5d5;
+    }
+
+    .toggle.on::after {
+      transform: translateX(16px);
+      background: #ffffff;
+    }
+
+    .toggle-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 16px;
+      padding: 11px 12px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 10px 20px rgba(108, 165, 108, 0.35);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 14px rgba(108, 165, 108, 0.3);
+    }
+
+    .btn-primary span.icon {
+      font-size: 1rem;
+    }
+
+    .result-card {
+      margin-top: 16px;
+      padding: 12px 11px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: #f9fbf7;
+    }
+
+    .result-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .result-status span.icon {
+      font-size: 1.1rem;
+    }
+
+    .status-good {
+      color: var(--accent);
+    }
+
+    .status-warning {
+      color: var(--warning);
+    }
+
+    .status-bad {
+      color: var(--danger);
+    }
+
+    .result-detail {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .result-tips {
+      font-size: 0.8rem;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+    }
+
+    .result-tips li {
+      margin-bottom: 3px;
+    }
+
+    footer {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    footer span.brand {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    @media (min-width: 520px) {
+      .card {
+        padding: 22px 22px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="card">
+      <header>
+        <h1>Check Frescura</h1>
+        <p>Yogurt de coco · Cadena de frío 🥥❄️</p>
+        <div class="pill">
+          <span>🌱</span>
+          <span>Eco · Minimal · Smart Pack</span>
+        </div>
+      </header>
+
+      <!-- Datos de lote -->
+      <section>
+        <h2 class="section-title">
+          <span class="icon">📦</span>
+          Datos del producto
+        </h2>
+        <div class="field-group">
+          <label for="lote">Código de lote (opcional)</label>
+          <input type="text" id="lote" placeholder="Ej: COC-2503A" />
+        </div>
+
+        <div class="date-row">
+          <div class="field-group">
+            <label for="fechaProd">Fecha de producción</label>
+            <input type="date" id="fechaProd" />
+            <div class="info-tag">Según etiqueta del envase</div>
+          </div>
+          <div class="field-group">
+            <label for="fechaVenc">Fecha de vencimiento</label>
+            <input type="date" id="fechaVenc" />
+            <div class="info-tag">No consumir después de esta fecha</div>
+          </div>
+        </div>
+
+        <div id="daysInfo" class="days-chip" style="display:none;">
+          <span>⏱</span>
+          <span id="daysText"></span>
+        </div>
+      </section>
+
+      <!-- Checklist visual -->
+      <section>
+        <h2 class="section-title">
+          <span class="icon">👀</span>
+          Revisión rápida del envase
+        </h2>
+        <p class="info-tag">
+          Desliza los interruptores si la condición es <strong>verdadera</strong>.
+        </p>
+
+        <div class="questions">
+          <div class="question" data-weight="3">
+            <div>
+              <div class="question-text">
+                El envase está <strong>inflado o abombado</strong>.
+              </div>
+              <div class="toggle-label">Posible actividad microbiana ⛔</div>
+            </div>
+            <div class="toggle" data-toggle="abombado"></div>
+          </div>
+
+          <div class="question" data-weight="2">
+            <div>
+              <div class="question-text">
+                Percibes un <strong>olor extraño o muy ácido</strong> al abrir.
+              </div>
+              <div class="toggle-label">Olor inusual = riesgo de deterioro</div>
+            </div>
+            <div class="toggle" data-toggle="olor"></div>
+          </div>
+
+          <div class="question" data-weight="2">
+            <div>
+              <div class="question-text">
+                La tapa está <strong>golpeada, levantada o mal sellada</strong>.
+              </div>
+              <div class="toggle-label">Puede haber entrado aire u otros microbios</div>
+            </div>
+            <div class="toggle" data-toggle="tapa"></div>
+          </div>
+
+          <div class="question" data-weight="1">
+            <div>
+              <div class="question-text">
+                Ves <strong>mucha separación de líquido</strong> o textura muy rara.
+              </div>
+              <div class="toggle-label">Separación extrema puede indicar inestabilidad</div>
+            </div>
+            <div class="toggle" data-toggle="separacion"></div>
+          </div>
+
+          <div class="question" data-weight="2">
+            <div>
+              <div class="question-text">
+                El yogurt ha estado <strong>más de 30 min fuera de refrigeración</strong>.
+              </div>
+              <div class="toggle-label">Cadena de frío comprometida 🌡️</div>
+            </div>
+            <div class="toggle" data-toggle="frio"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Botón -->
+      <button class="btn-primary" id="btnEvaluar">
+        <span class="icon">🍃</span>
+        <span>Evaluar frescura</span>
+      </button>
+
+      <!-- Resultado -->
+      <div id="result" class="result-card" style="display:none;">
+        <div id="resultStatus" class="result-status">
+          <span class="icon">🟢</span>
+          <span>Frescura óptima</span>
+        </div>
+        <div id="resultDetail" class="result-detail">
+          Basado en tus respuestas y las fechas del envase.
+        </div>
+        <ul id="resultTips" class="result-tips"></ul>
+      </div>
+
+      <footer>
+        Esta herramienta es una guía orientativa y <strong>no sustituye</strong> buenas prácticas de inocuidad.  
+        <br />Si dudas, prioriza siempre tu seguridad. 🌱
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Helper: calcular diferencia de días entre dos fechas YYYY-MM-DD
+    function diffDays(from, to) {
+      const f = new Date(from);
+      const t = new Date(to);
+      if (isNaN(f) || isNaN(t)) return null;
+      const ms = t.getTime() - f.getTime();
+      return Math.round(ms / (1000 * 60 * 60 * 24));
+    }
+
+    // Actualizar chip de días automáticamente al cambiar fechas
+    const fechaProdInput = document.getElementById("fechaProd");
+    const fechaVencInput = document.getElementById("fechaVenc");
+    const daysInfo = document.getElementById("daysInfo");
+    const daysText = document.getElementById("daysText");
+
+    function updateDaysChip() {
+      const prod = fechaProdInput.value;
+      if (!prod) {
+        daysInfo.style.display = "none";
+        return;
+      }
+      const hoy = new Date();
+      const hoyStr = hoy.toISOString().split("T")[0];
+      const d = diffDays(prod, hoyStr);
+      if (d === null || d < 0) {
+        daysInfo.style.display = "none";
+        return;
+      }
+      daysInfo.style.display = "inline-flex";
+      daysText.textContent = `Aproximadamente ${d} día(s) desde la producción`;
+    }
+
+    fechaProdInput.addEventListener("change", updateDaysChip);
+
+    // Toggles
+    document.querySelectorAll(".toggle").forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        toggle.classList.toggle("on");
+      });
+    });
+
+    // Evaluación de frescura
+    const btnEvaluar = document.getElementById("btnEvaluar");
+    const resultCard = document.getElementById("result");
+    const resultStatus = document.getElementById("resultStatus");
+    const resultDetail = document.getElementById("resultDetail");
+    const resultTips = document.getElementById("resultTips");
+
+    btnEvaluar.addEventListener("click", () => {
+      const hoy = new Date();
+      const hoyStr = hoy.toISOString().split("T")[0];
+      const prod = fechaProdInput.value;
+      const venc = fechaVencInput.value;
+
+      let riskScore = 0;
+      let notes = [];
+
+      // 1. Riesgo por fecha
+      let diasDesdeProd = null;
+      let diasParaVenc = null;
+
+      if (prod) {
+        diasDesdeProd = diffDays(prod, hoyStr);
+        if (diasDesdeProd !== null && diasDesdeProd > 21) {
+          riskScore += 2; // cerca de fin de vida útil
+          notes.push("El producto tiene más de 21 días desde su producción.");
+        }
+      }
+
+      if (venc) {
+        diasParaVenc = diffDays(hoyStr, venc);
+        if (diasParaVenc !== null && diasParaVenc <= 3) {
+          riskScore += 2;
+          notes.push("La fecha de vencimiento está muy próxima o vencida.");
+        }
+        if (diasParaVenc !== null && diasParaVenc < 0) {
+          riskScore += 4;
+          notes.push("La fecha de vencimiento ya pasó.");
+        }
+      }
+
+      // 2. Riesgo por checklist visual
+      document.querySelectorAll(".question").forEach((q) => {
+        const weight = Number(q.getAttribute("data-weight")) || 0;
+        const toggle = q.querySelector(".toggle");
+        if (toggle.classList.contains("on")) {
+          riskScore += weight;
+        }
+      });
+
+      // 3. Clasificación final
+      let statusClass = "status-good";
+      let icon = "🟢";
+      let statusText = "Frescura óptima";
+      let tips = [];
+
+      if (riskScore <= 2) {
+        statusClass = "status-good";
+        icon = "🟢";
+        statusText = "Frescura óptima";
+        tips.push("Mantén el yogurt siempre refrigerado entre 1–7 °C.");
+        tips.push("Si el olor, color y sabor son normales, el producto es apto para consumo.");
+      } else if (riskScore <= 5) {
+        statusClass = "status-warning";
+        icon = "🟡";
+        statusText = "Consumir con precaución";
+        tips.push("Revisa cuidadosamente olor, color y sabor antes de consumir.");
+        tips.push("Si notas cambios fuertes, es mejor no consumir el producto.");
+      } else {
+        statusClass = "status-bad";
+        icon = "🔴";
+        statusText = "No recomendado";
+        tips.push("No consumas el yogurt si hay dudas sobre su frescura.");
+        tips.push("Descarta el producto y revisa la cadena de frío de tu refrigerador.");
+      }
+
+      // Render resultado
+      resultStatus.className = "result-status " + statusClass;
+      resultStatus.innerHTML = `<span class="icon">${icon}</span><span>${statusText}</span>`;
+
+      if (!prod && !venc) {
+        resultDetail.textContent =
+          "Evaluación basada solo en la inspección visual y condiciones de manejo.";
+      } else {
+        resultDetail.textContent =
+          "Evaluación basada en las fechas del envase y tu inspección visual.";
+      }
+
+      resultTips.innerHTML = "";
+      [...notes, ...tips].forEach((t) => {
+        const li = document.createElement("li");
+        li.textContent = t;
+        resultTips.appendChild(li);
+      });
+
+      resultCard.style.display = "block";
+      updateDaysChip();
+    });
+  </script>
+</body>
+</html>
